@@ -7,24 +7,18 @@ package mypack;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 /**
  *
  * @author DELL
  */
-@WebServlet(name = "selectServlet", urlPatterns = {"/selectServlet"})
-public class selectServlet extends HttpServlet {
+@WebServlet(name = "redirect", urlPatterns = {"/redirect"})
+public class redirect extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,30 +33,16 @@ public class selectServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-          
-            SessionFactory sf=new Configuration().configure().buildSessionFactory();
-            Session s=sf.openSession();
-            Transaction tr=s.beginTransaction();
-            Query q=s.createQuery("from Hibersql");
-            List<Hibersql> hibersqls=q.list();
             
-            for(Hibersql hb:hibersqls)
-            {
-               System.out.println(hb.getId()+" "+hb.getName()+" "+hb.getAddress());
-            }
-         //  out.println("<input type='hidden' value='hibersqls' name='list'>");
-           //response.sendRedirect("/home.jsp");
-            tr.commit();
-            s.close();
-            
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet selectServlet</title>");            
+            out.println("<title>Servlet redirect</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Data Selection Successfully</h1>");
+            out.println("<h1>Servlet redirect at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
